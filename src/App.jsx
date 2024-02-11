@@ -1,6 +1,78 @@
 function App() {
 	return (
 		<div className="wrapper clear">
+			<div className="overlay">
+				<div className="drawer">
+					<h2 className="d-flex justify-between mb-30 ">
+						Корзина
+						<img
+							className="removeBtn cu-p"
+							src="/img/svg/btn-remove.svg"
+							alt="Remove"
+						/>
+					</h2>
+					<div className="items">
+						<div className="cartItem d-flex akign-center mb-20">
+							<div
+								style={{
+									backgroundImage: 'url(img/t-shirt/2.jpg)',
+								}}
+								className="cartItemImg"></div>
+
+							<div className="mr-20 flex">
+								<p className="mb-5">Имя товара 2</p>
+								<b>1 000 руб.</b>
+							</div>
+							<img
+								className="removeBtn"
+								src="/img/svg/btn-remove.svg"
+								alt="Remove"
+							/>
+						</div>
+						<div className="cartItem d-flex akign-center mb-20">
+							<div
+								style={{
+									backgroundImage: 'url(img/t-shirt/1.jpg)',
+								}}
+								className="cartItemImg"></div>
+
+							<div className="mr-20 flex">
+								<p className="mb-5">Имя товара 1</p>
+								<b>2 000 руб.</b>
+							</div>
+							<img
+								className="removeBtn"
+								src="/img/svg/btn-remove.svg"
+								alt="Remove"
+							/>
+						</div>
+					</div>
+					<div className="cartTotalBlock">
+						<ul>
+							<li>
+								<span>Итого: </span>
+								<div></div>
+								<b>10 000 руб.</b>
+							</li>
+							<li>
+								<span>Налог 5%</span>
+								<div></div>
+								<b>1 074 руб.</b>
+							</li>
+						</ul>
+						<button className="blueButton">
+							Оформить заказ
+							<img
+								src="/img/svg/arrow-right.svg"
+								alt="Arrow"
+								width={20}
+								height={20}
+							/>
+						</button>
+					</div>
+				</div>
+			</div>
+
 			<header className="d-flex justify-between align-center">
 				<div className="d-flex align-center">
 					<img
@@ -12,7 +84,7 @@ function App() {
 					/>
 					<div>
 						<h3 className="text-uppercase">React T-Shirt</h3>
-						<p>Футболки на любой вкус</p>
+						<p className="opacity-5">Футболки на любой вкус</p>
 					</div>
 				</div>
 				<ul className="d-flex">
@@ -38,7 +110,7 @@ function App() {
 								fill="black"
 							/>
 						</svg>
-						<span> 1000 руб.</span>
+						<span> 1 000 руб.</span>
 					</li>
 					<li>
 						<svg
@@ -58,9 +130,29 @@ function App() {
 				</ul>
 			</header>
 			<div className="content p-40">
-				<h1 className="mb-40">Все футболки</h1>
-				<div className="d-flex">
+				<div className="d-flex align-center justify-between mb-40">
+					<h1 className="">Все футболки</h1>
+					<div className="search-block d-flex align-center">
+						<img
+							src="/img/svg/search.svg"
+							width={12}
+							height={12}
+							alt="Search"
+						/>
+						<input type="text" placeholder="Поиск.." />
+					</div>
+				</div>
+
+				<div className="d-flex flex-wrap">
 					<div className="card">
+						<div className="favorite">
+							<img
+								width={22}
+								height={22}
+								src="/img/svg/heart-unlike.svg"
+								alt="Heart unliked"
+							/>
+						</div>
 						<img
 							width={133}
 							height={112}
@@ -71,7 +163,7 @@ function App() {
 						<div className="d-flex justify-between align-center">
 							<div className="d-flex flex-column ">
 								<span>Цена:</span>
-								<b>2000 руб. </b>
+								<b>2 000 руб. </b>
 							</div>
 							<button className="button">
 								<img
