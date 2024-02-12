@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ onOpenDrawer }) => {
 	return (
 		<header className="d-flex justify-between align-center">
 			<div className="d-flex align-center">
@@ -16,7 +16,7 @@ const Header = () => {
 					<p className="opacity-5">Футболки на любой вкус</p>
 				</div>
 			</div>
-			<ul className="d-flex">
+			<ul className="d-flex cu-p" onClick={onOpenDrawer}>
 				<li className="mr-30">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

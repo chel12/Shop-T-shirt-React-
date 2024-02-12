@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import styles from './Card.module.scss';
 
-const Card = ({ title, price, img, onClickAdd }) => {
+const Card = ({ title, price, img, addFavorite, addCartItem }) => {
 	const [isAdded, setIsAdded] = useState(false);
 	const [isFavorite, setIsFavorite] = useState(false);
 
 	const onClickPlus = () => {
+		addCartItem({ title, price, img }); //показать обьект, и эта инфа  уйдёт в вверх
 		setIsAdded(!isAdded);
 	};
 	const onClickFavorite = () => {
+		addCartItem({ title, price, img });
 		setIsFavorite(!isFavorite);
 	};
 
