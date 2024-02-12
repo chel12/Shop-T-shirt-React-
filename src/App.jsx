@@ -30,6 +30,8 @@ function App() {
 							title={card.title}
 							price={card.price}
 							img={card.img}
+							onClickFavorite={() => {}}
+							onClickAdd={() => {}}
 							key={card.title}
 						/>
 					))}
