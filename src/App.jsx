@@ -34,9 +34,24 @@ function App() {
 		// это как setCartItems([...cartItems, obj]);
 	};
 	//добавление карточки в Избранное
-	const onFavorite = (obj) => {
-		axios.post('https://f4b4503d373ac905.mokky.dev/favorite', obj);
-		setFavorites((prev) => [...prev, obj]);
+	const onFavorite = async (obj) => {
+		try {
+			if (favorites.find((item) => item.id == obj.id)) {
+				axios.delete(
+					`https://f4b4503d373ac905.mokky.dev/favorite/${obj.id}`
+				);
+				// setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
+			} else {
+				const { data } = await axios.post(
+					'https://f4b4503d373ac905.mokky.dev/favorite',
+					obj
+				);
+
+				setFavorites((prev) => [...prev, data]);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 	const onRemoveItem = (id) => {
 		axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
@@ -64,10 +79,18 @@ function App() {
 				setCartItems(res.data);
 			});
 	};
+	const getDataFavorite = () => {
+		axios //сразу возвращает норм запрос
+			.get('https://f4b4503d373ac905.mokky.dev/favorite')
+			.then((res) => {
+				setCartItems(res.data);
+			});
+	};
 
 	useEffect(() => {
 		getData();
 		getDataDrawer();
+		getDataFavorite();
 	}, []);
 
 	return (
