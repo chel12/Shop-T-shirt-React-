@@ -7,6 +7,7 @@ const Home = ({
 	data,
 	onFavorite,
 	onAddToCart,
+	cartItems,
 }) => {
 	return (
 		<div className="content p-40">
@@ -50,6 +51,9 @@ const Home = ({
 							addFavorite={(obj) => onFavorite(obj)}
 							addCartItem={(obj) => onAddToCart(obj)}
 							key={card.title}
+							added={cartItems.some(
+								(obj) => Number(obj.id) == Number(card.id)
+							)}
 						/>
 					))}
 			</div>

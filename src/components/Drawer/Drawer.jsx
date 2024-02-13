@@ -20,7 +20,7 @@ const Drawer = ({ onCloseDrawer, cartItems, onRemoveItem }) => {
 							{cartItems.map((item) => (
 								<div
 									className="cartItem d-flex align-center mb-20"
-									key={item.title}>
+									key={item.id}>
 									<div
 										style={{
 											backgroundImage: `url(${item.img})`,

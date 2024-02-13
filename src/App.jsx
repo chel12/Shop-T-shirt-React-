@@ -29,14 +29,28 @@ function App() {
 
 	//добавление карточки в корзину
 	const onAddToCart = (obj) => {
-		axios.post('https://f4b4503d373ac905.mokky.dev/cart', obj);
-		setCartItems((prev) => [...prev, obj]);
-		// это как setCartItems([...cartItems, obj]);
+		try {
+			if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+				axios.delete(
+					`https://f4b4503d373ac905.mokky.dev/cart/${obj.id}`
+				);
+				setCartItems((prev) =>
+					prev.filter((item) => item.id !== obj.id)
+				);
+			} else {
+				axios.post('https://f4b4503d373ac905.mokky.dev/cart', obj);
+				setCartItems((prev) => [...prev, obj]);
+			}
+
+			// это как setCartItems([...cartItems, obj]);
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 	//добавление карточки в Избранное
 	const onFavorite = async (obj) => {
 		try {
-			if (favorites.find((item) => item.id == obj.id)) {
+			if (favorites.find((item) => Number(item.id) == Number(obj.id))) {
 				axios.delete(
 					`https://f4b4503d373ac905.mokky.dev/favorite/${obj.id}`
 				);
@@ -55,42 +69,28 @@ function App() {
 	};
 	const onRemoveItem = (id) => {
 		axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
-		setCartItems((prev) => prev.filter((item) => item.id != id));
-	};
-	//запрос на сервак за кроссами
-	const getData = () => {
-		// fetch('https://65c9fced3b05d29307df6ad6.mockapi.io/items')
-		// 	.then((res) => {
-		// 		return res.json();
-		// 	})
-		// 	.then((json) => {
-		// 		setData(json);
-		// 	});
-		axios //сразу возвращает норм запрос
-			.get('https://f4b4503d373ac905.mokky.dev/items')
-			.then((res) => {
-				setData(res.data);
-			});
-	};
-	const getDataDrawer = () => {
-		axios //сразу возвращает норм запрос
-			.get('https://f4b4503d373ac905.mokky.dev/cart')
-			.then((res) => {
-				setCartItems(res.data);
-			});
-	};
-	const getDataFavorite = () => {
-		axios //сразу возвращает норм запрос
-			.get('https://f4b4503d373ac905.mokky.dev/favorite')
-			.then((res) => {
-				setCartItems(res.data);
-			});
+		setCartItems((prev) =>
+			prev.filter((item) => Number(item.id) !== Number(id))
+		);
 	};
 
 	useEffect(() => {
-		getData();
-		getDataDrawer();
-		getDataFavorite();
+		async function fetchData() {
+			const getDataDrawer = await axios.get(
+				'https://f4b4503d373ac905.mokky.dev/cart'
+			);
+			const getDataFavorite = await axios.get(
+				'https://f4b4503d373ac905.mokky.dev/favorite'
+			);
+			const getData = await axios.get(
+				'https://f4b4503d373ac905.mokky.dev/items'
+			);
+
+			setCartItems(getDataDrawer.data);
+			setFavorites(getDataFavorite.data);
+			setData(getData.data);
+		}
+		fetchData();
 	}, []);
 
 	return (
@@ -109,6 +109,7 @@ function App() {
 					path="/"
 					element={
 						<Home
+							cartItems={cartItems}
 							searchValue={searchValue}
 							onChangeSearchInput={onChangeSearchInput}
 							data={data}
