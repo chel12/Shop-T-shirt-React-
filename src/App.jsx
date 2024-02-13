@@ -1,10 +1,10 @@
-import Card from './components/Card/Card';
+import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 import Drawer from './components/Drawer/Drawer';
 import Header from './components/Header/Header';
 import Wrapper from './components/Wrapper/Wrapper';
-import { arr } from './BD/bd';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import Home from './pages/Home';
 
 function App() {
 	//для корзины
@@ -80,51 +80,21 @@ function App() {
 					onRemoveItem={onRemoveItem}></Drawer>
 			)}
 			<Header onOpenDrawer={() => setCartOpened(true)}></Header>
-			<div className="content p-40">
-				<div className="d-flex align-center justify-between mb-40">
-					<h1 className="">
-						{searchValue
-							? `Поиск по запросу: ${searchValue}`
-							: 'Все футболки'}
-					</h1>
-					<div className="search-block d-flex align-center">
-						<img
-							src="/img/svg/search.svg"
-							width={12}
-							height={12}
-							alt="Search"
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<Home
+							searchValue={searchValue}
+							onChangeSearchInput={onChangeSearchInput}
+							data={data}
+							onFavorite={onFavorite}
+							onAddToCart={onAddToCart}
 						/>
-						<input
-							type="text"
-							placeholder="Поиск.."
-							value={searchValue}
-							onChange={onChangeSearchInput}
-						/>
-					</div>
-				</div>
-
-				<div className="d-flex flex-wrap">
-					{data
-						.filter(
-							(
-								item //поиск по всем товарам
-							) =>
-								item.title
-									.toLowerCase() //перевод в один регистр
-									.includes(searchValue.toLowerCase()) //ищет вхождения
-						)
-						.map((card) => (
-							<Card
-								title={card.title}
-								price={card.price}
-								img={card.img}
-								addFavorite={(obj) => onFavorite(obj)}
-								addCartItem={(obj) => onAddToCart(obj)}
-								key={card.title}
-							/>
-						))}
-				</div>
-			</div>
+					}
+					exact
+				/>
+			</Routes>
 		</Wrapper>
 	);
 }

@@ -1,21 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = ({ onOpenDrawer }) => {
 	return (
 		<header className="d-flex justify-between align-center">
-			<div className="d-flex align-center">
-				<img
-					src="/img/logo.png"
-					alt="Лого"
-					width={40}
-					height={40}
-					className="mr-20"
-				/>
-				<div>
-					<h3 className="text-uppercase">React T-Shirt</h3>
-					<p className="opacity-5">Футболки на любой вкус</p>
+			<Link to={'/'}>
+				<div className="d-flex align-center">
+					<img
+						src="/img/logo.png"
+						alt="Лого"
+						width={40}
+						height={40}
+						className="mr-20"
+					/>
+					<div>
+						<h3 className="text-uppercase">React T-Shirt</h3>
+						<p className="opacity-5">Футболки на любой вкус</p>
+					</div>
 				</div>
-			</div>
+			</Link>
 			<ul className="d-flex cu-p align-center" onClick={onOpenDrawer}>
 				<li className="mr-30">
 					<svg
@@ -45,12 +48,14 @@ const Header = ({ onOpenDrawer }) => {
 					<span> 1 000 руб.</span>
 				</li>
 				<li className="mr-10">
-					<img
-						width={22}
-						height={22}
-						src="/img/svg/heart-unlike.svg"
-						alt="Избранное"
-					/>
+					<Link to={'/favorite'}>
+						<img
+							width={22}
+							height={22}
+							src="/img/svg/heart-unlike.svg"
+							alt="Избранное"
+						/>
+					</Link>
 				</li>
 				<li>
 					<svg
