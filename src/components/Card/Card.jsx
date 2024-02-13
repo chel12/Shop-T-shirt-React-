@@ -10,7 +10,7 @@ const Card = ({ title, price, img, addFavorite, addCartItem }) => {
 		setIsAdded(!isAdded);
 	};
 	const onClickFavorite = () => {
-		addCartItem({ title, price, img });
+		addFavorite({ title, price, img });
 		setIsFavorite(!isFavorite);
 	};
 

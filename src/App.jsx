@@ -9,8 +9,13 @@ import axios from 'axios';
 function App() {
 	//для корзины
 	const [cartOpened, setCartOpened] = useState(false);
+
 	//стейте для  добавления в корзину
 	const [cartItems, setCartItems] = useState([]);
+
+	//стейте для  добавления в корзину
+	const [favorites, setFavorites] = useState([]);
+
 	//стейте с кроссами приходит с сервака
 	const [data, setData] = useState([]);
 
@@ -26,6 +31,11 @@ function App() {
 		axios.post('https://65c9fced3b05d29307df6ad6.mockapi.io/cart', obj);
 		setCartItems((prev) => [...prev, obj]);
 		// это как setCartItems([...cartItems, obj]);
+	};
+	//добавление карточки в Избранное
+	const onFavorite = (obj) => {
+		axios.post('https://65c9fced3b05d29307df6ad6.mockapi.io/favorite', obj);
+		setFavorites((prev) => [...prev, obj]);
 	};
 	const onRemoveItem = (id) => {
 		axios.delete(`https://65c9fced3b05d29307df6ad6.mockapi.io/cart/${id}`);
@@ -56,7 +66,7 @@ function App() {
 
 	useEffect(() => {
 		getData();
-		getDataDrawer();
+		// getDataDrawer();
 	}, []);
 
 	return (
@@ -108,7 +118,7 @@ function App() {
 								title={card.title}
 								price={card.price}
 								img={card.img}
-								addFavorite={() => {}}
+								addFavorite={(obj) => onFavorite(obj)}
 								addCartItem={(obj) => onAddToCart(obj)}
 								key={card.title}
 							/>

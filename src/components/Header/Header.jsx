@@ -6,7 +6,7 @@ const Header = ({ onOpenDrawer }) => {
 			<div className="d-flex align-center">
 				<img
 					src="/img/logo.png"
-					alt=""
+					alt="Лого"
 					width={40}
 					height={40}
 					className="mr-20"
@@ -16,9 +16,10 @@ const Header = ({ onOpenDrawer }) => {
 					<p className="opacity-5">Футболки на любой вкус</p>
 				</div>
 			</div>
-			<ul className="d-flex cu-p" onClick={onOpenDrawer}>
+			<ul className="d-flex cu-p align-center" onClick={onOpenDrawer}>
 				<li className="mr-30">
 					<svg
+						alt="Корзина"
 						xmlns="http://www.w3.org/2000/svg"
 						width="20"
 						height="20"
@@ -39,12 +40,23 @@ const Header = ({ onOpenDrawer }) => {
 							fill="black"
 						/>
 					</svg>
+				</li>
+				<li className="mr-30">
 					<span> 1 000 руб.</span>
+				</li>
+				<li className="mr-10">
+					<img
+						width={22}
+						height={22}
+						src="/img/svg/heart-unlike.svg"
+						alt="Избранное"
+					/>
 				</li>
 				<li>
 					<svg
-						width="20"
-						height="20"
+						alt="Пользователь"
+						width="22"
+						height="22"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 32 32">
 						<path
