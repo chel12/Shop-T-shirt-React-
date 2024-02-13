@@ -5,6 +5,7 @@ import Drawer from './components/Drawer/Drawer';
 import Header from './components/Header/Header';
 import Wrapper from './components/Wrapper/Wrapper';
 import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 function App() {
 	//для корзины
@@ -28,17 +29,17 @@ function App() {
 
 	//добавление карточки в корзину
 	const onAddToCart = (obj) => {
-		axios.post('https://65c9fced3b05d29307df6ad6.mockapi.io/cart', obj);
+		axios.post('https://f4b4503d373ac905.mokky.dev/cart', obj);
 		setCartItems((prev) => [...prev, obj]);
 		// это как setCartItems([...cartItems, obj]);
 	};
 	//добавление карточки в Избранное
 	const onFavorite = (obj) => {
-		axios.post('https://65c9fced3b05d29307df6ad6.mockapi.io/favorite', obj);
+		axios.post('https://f4b4503d373ac905.mokky.dev/favorite', obj);
 		setFavorites((prev) => [...prev, obj]);
 	};
 	const onRemoveItem = (id) => {
-		axios.delete(`https://65c9fced3b05d29307df6ad6.mockapi.io/cart/${id}`);
+		axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
 		setCartItems((prev) => prev.filter((item) => item.id != id));
 	};
 	//запрос на сервак за кроссами
@@ -51,14 +52,14 @@ function App() {
 		// 		setData(json);
 		// 	});
 		axios //сразу возвращает норм запрос
-			.get('https://65c9fced3b05d29307df6ad6.mockapi.io/items')
+			.get('https://f4b4503d373ac905.mokky.dev/items')
 			.then((res) => {
 				setData(res.data);
 			});
 	};
 	const getDataDrawer = () => {
 		axios //сразу возвращает норм запрос
-			.get('https://65c9fced3b05d29307df6ad6.mockapi.io/cart')
+			.get('https://f4b4503d373ac905.mokky.dev/cart')
 			.then((res) => {
 				setCartItems(res.data);
 			});
@@ -66,7 +67,7 @@ function App() {
 
 	useEffect(() => {
 		getData();
-		// getDataDrawer();
+		getDataDrawer();
 	}, []);
 
 	return (
@@ -88,6 +89,17 @@ function App() {
 							searchValue={searchValue}
 							onChangeSearchInput={onChangeSearchInput}
 							data={data}
+							onFavorite={onFavorite}
+							onAddToCart={onAddToCart}
+						/>
+					}
+					exact
+				/>
+				<Route
+					path="/favorite"
+					element={
+						<Favorites
+							favorites={favorites}
 							onFavorite={onFavorite}
 							onAddToCart={onAddToCart}
 						/>

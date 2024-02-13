@@ -19,8 +19,8 @@ const Header = ({ onOpenDrawer }) => {
 					</div>
 				</div>
 			</Link>
-			<ul className="d-flex cu-p align-center" onClick={onOpenDrawer}>
-				<li className="mr-30">
+			<ul className="d-flex cu-p align-center">
+				<li className="mr-30" onClick={onOpenDrawer}>
 					<svg
 						alt="Корзина"
 						xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ const Header = ({ onOpenDrawer }) => {
 						/>
 					</svg>
 				</li>
-				<li className="mr-30">
+				<li className="mr-30" onClick={onOpenDrawer}>
 					<span> 1 000 руб.</span>
 				</li>
 				<li className="mr-10">
