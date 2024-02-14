@@ -109,6 +109,10 @@ header {
 	}
 	.blueButton {
 		position: relative;
+		&:disabled {
+			background: #a39d9d72;
+			cursor: default;
+		}
 		&:hover {
 			img {
 				transform: translateX(5px);

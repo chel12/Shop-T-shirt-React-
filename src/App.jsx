@@ -78,7 +78,7 @@ function App() {
 	const onRemoveItem = (id) => {
 		axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
 		setCartItems((prev) =>
-			prev.filter((item) => Number(item.id) !== Number(id))
+			prev.filter((item) => Number(item.id) != Number(id))
 		);
 	};
 
@@ -102,7 +102,7 @@ function App() {
 	}, []);
 
 	const isItemAdded = (id) => {
-		cartItems.some((obj) => Number(obj.id) === Number(id));
+		cartItems.some((obj) => Number(obj.id) == Number(id));
 	};
 
 	return (

@@ -1,12 +1,27 @@
+import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 
 const Drawer = ({ cartItems, onRemoveItem }) => {
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
-	const onClickOrder = () => {
-		setIsOrderComplete(true);
-		setCartItems([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [orderId, setOrderId] = useState(null);
+	const onClickOrder = async () => {
+		try {
+			setIsLoading(true);
+			const { data } = await axios.post(
+				'https://f4b4503d373ac905.mokky.dev/orders',
+				{ items: cartItems }
+			);
+			await axios.patch('https://f4b4503d373ac905.mokky.dev/cart', []);
+			setOrderId(data.id);
+			setIsOrderComplete(true);
+			setCartItems([]);
+		} catch (error) {
+			console.log(error.message);
+		}
+		setIsLoading(false);
 	};
 
 	const { setCartOpened, setCartItems } = useContext(AppContext);
@@ -66,6 +81,7 @@ const Drawer = ({ cartItems, onRemoveItem }) => {
 							</ul>
 							<button
 								className="blueButton"
+								disabled={isLoading}
 								onClick={onClickOrder}>
 								Оформить заказ
 								<img
@@ -89,7 +105,7 @@ const Drawer = ({ cartItems, onRemoveItem }) => {
 						}
 						description={
 							isOrderComplete
-								? `Ваш заказ №1`
+								? `Ваш заказ ${orderId} успешно оформлен`
 								: 'Нет добавленных товаров'
 						}
 						textBtn={'Вернуться назад'}
