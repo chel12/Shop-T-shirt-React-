@@ -15,13 +15,13 @@ const Card = ({
 }) => {
 	const [isAdded, setIsAdded] = useState(added);
 	const [isFavorite, setIsFavorite] = useState(favorited);
-
+	const obj = { title, price, img, id };
 	const onClickPlus = () => {
-		addCartItem({ title, price, img, id }); //показать обьект, и эта инфа  уйдёт в вверх
+		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
 		setIsAdded(!isAdded);
 	};
 	const onClickFavorite = () => {
-		addFavorite({ title, price, img, id });
+		addFavorite(obj);
 		setIsFavorite(!isFavorite);
 		console.log();
 	};
@@ -35,8 +35,7 @@ const Card = ({
 					height={170}
 					viewBox="0 0 150 170"
 					backgroundColor="#f3f3f3"
-					foregroundColor="#ecebeb"
-					>
+					foregroundColor="#ecebeb">
 					<rect x="158" y="132" rx="0" ry="0" width="3" height="3" />
 					<rect
 						x="492"

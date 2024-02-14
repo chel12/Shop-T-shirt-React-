@@ -8,7 +8,29 @@ const Home = ({
 	onFavorite,
 	onAddToCart,
 	cartItems,
+	isLoading,
 }) => {
+	//вынес чтобы сделать компонент загрузки
+	const renderItems = () => {
+		const filtredItems = data.filter((item) =>
+			item.title.toLowerCase().includes(searchValue.toLowerCase())
+		);
+		const loadArr = Array(8).fill(1); //заглушка для лоадераф
+		return (isLoading ? loadArr : filtredItems).map((card) => (
+			<Card
+				loading={isLoading}
+				title={card.title}
+				price={card.price}
+				img={card.img}
+				addFavorite={(obj) => onFavorite(obj)}
+				addCartItem={(obj) => onAddToCart(obj)}
+				key={card.title}
+				added={cartItems.some(
+					(obj) => Number(obj.id) == Number(card.id)
+				)}
+			/>
+		));
+	};
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">
@@ -33,31 +55,7 @@ const Home = ({
 				</div>
 			</div>
 
-			<div className="d-flex flex-wrap">
-				{data
-					.filter(
-						(
-							item //поиск по всем товарам
-						) =>
-							item.title
-								.toLowerCase() //перевод в один регистр
-								.includes(searchValue.toLowerCase()) //ищет вхождения
-					)
-					.map((card) => (
-						<Card
-							title={card.title}
-							price={card.price}
-							img={card.img}
-							addFavorite={(obj) => onFavorite(obj)}
-							addCartItem={(obj) => onAddToCart(obj)}
-							key={card.title}
-							added={cartItems.some(
-								(obj) => Number(obj.id) == Number(card.id)
-							)}
-							
-						/>
-					))}
-			</div>
+			<div className="d-flex flex-wrap">{renderItems()}</div>
 		</div>
 	);
 };

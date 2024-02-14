@@ -23,6 +23,9 @@ function App() {
 	//поиск
 	const [searchValue, setSearchValue] = useState('');
 
+	//загрузка контроль
+	const [isLoading, setIsLoading] = useState(true);
+
 	const onChangeSearchInput = (e) => {
 		setSearchValue(e.target.value);
 	};
@@ -85,7 +88,7 @@ function App() {
 			const getData = await axios.get(
 				'https://f4b4503d373ac905.mokky.dev/items'
 			);
-
+			setIsLoading(false);
 			setCartItems(getDataDrawer.data);
 			setFavorites(getDataFavorite.data);
 			setData(getData.data);
@@ -109,6 +112,7 @@ function App() {
 					path="/"
 					element={
 						<Home
+							isLoading={isLoading}
 							cartItems={cartItems}
 							searchValue={searchValue}
 							onChangeSearchInput={onChangeSearchInput}
