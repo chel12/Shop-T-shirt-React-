@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 
-const Drawer = ({ onCloseDrawer, cartItems, onRemoveItem }) => {
+const Drawer = ({ cartItems, onRemoveItem }) => {
+	const [isOrderComplete, setIsOrderComplete] = useState(false);
+	const onClickOrder = () => {
+		setIsOrderComplete(true);
+		setCartItems([]);
+	};
+
+	const { setCartOpened, setCartItems } = useContext(AppContext);
 	return (
 		<div className="overlay">
 			<div className="drawer">
 				<h2 className="d-flex justify-between mb-30 ">
 					Корзина
 					<img
-						onClick={onCloseDrawer}
+						onClick={() => setCartOpened(false)}
 						className="removeBtn cu-p"
 						src="/img/svg/btn-remove.svg"
 						alt="Remove"
 					/>
 				</h2>
+
 				{cartItems.length > 0 ? (
-					<div>
+					<div className="d-flex flex-column flex">
 						<div className="items">
-							{cartItems.map((item) => (
+							{cartItems.map((item, index) => (
 								<div
 									className="cartItem d-flex align-center mb-20"
-									key={item.id}>
+									key={index}>
 									<div
 										style={{
 											backgroundImage: `url(${item.img})`,
@@ -55,7 +64,9 @@ const Drawer = ({ onCloseDrawer, cartItems, onRemoveItem }) => {
 									<b>1 074 руб.</b>
 								</li>
 							</ul>
-							<button className="blueButton">
+							<button
+								className="blueButton"
+								onClick={onClickOrder}>
 								Оформить заказ
 								<img
 									src="/img/svg/arrow-right.svg"
@@ -68,10 +79,25 @@ const Drawer = ({ onCloseDrawer, cartItems, onRemoveItem }) => {
 					</div>
 				) : (
 					<EmptyDrawer
-						onClose={onCloseDrawer}
-						title={'Корзина пуста'}
-						description={'Нет добавленных товаров'}
-						img={'/img/svg/sad.svg'}
+						onClose={() => {
+							setCartOpened(false);
+						}}
+						title={
+							isOrderComplete
+								? 'Поздравляем с покупкой!'
+								: 'Корзина пуста'
+						}
+						description={
+							isOrderComplete
+								? `Ваш заказ №1`
+								: 'Нет добавленных товаров'
+						}
+						textBtn={'Вернуться назад'}
+						img={
+							isOrderComplete
+								? '/img/svg/order.svg'
+								: '/img/svg/sad.svg'
+						}
 					/>
 				)}
 			</div>

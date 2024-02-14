@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from '../components/Card/Card';
+import { AppContext } from '../App';
 
-const Favorites = ({ favorites, onFavorite }) => {
+const Favorites = () => {
+	const { favorites, onFavorite } = useContext(AppContext);
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">

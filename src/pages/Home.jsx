@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../App';
 import Card from '../components/Card/Card';
 
 const Home = ({
 	searchValue,
 	onChangeSearchInput,
 	data,
-	onFavorite,
 	onAddToCart,
-	cartItems,
 	isLoading,
 }) => {
+	
+	const { onFavorite } = useContext(AppContext);
+
 	//вынес чтобы сделать компонент загрузки
 	const renderItems = () => {
 		const filtredItems = data.filter((item) =>
@@ -24,13 +26,11 @@ const Home = ({
 				img={card.img}
 				addFavorite={(obj) => onFavorite(obj)}
 				addCartItem={(obj) => onAddToCart(obj)}
-				key={card.title}
-				added={cartItems.some(
-					(obj) => Number(obj.id) == Number(card.id)
-				)}
+				key={card.id}
 			/>
 		));
 	};
+
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">

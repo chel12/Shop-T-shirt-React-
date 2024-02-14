@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
+import { AppContext } from '../../App';
 
 const Card = ({
 	title,
@@ -10,16 +11,17 @@ const Card = ({
 	addCartItem,
 	favorited = false,
 	id,
-	added = false,
 	loading = false,
 }) => {
-	const [isAdded, setIsAdded] = useState(added);
+	const { isItemAdded } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(favorited);
+
 	const obj = { title, price, img, id };
+
 	const onClickPlus = () => {
 		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
-		setIsAdded(!isAdded);
 	};
+
 	const onClickFavorite = () => {
 		addFavorite(obj);
 		setIsFavorite(!isFavorite);
@@ -87,15 +89,20 @@ const Card = ({
 							height={30}
 							className={styles.plus}
 							onClick={onClickPlus}
-							src={`/img/svg/${
-								isAdded ? `btn-checked.svg` : `btn-plus.svg`
-							}`}
+							
+							src={
+								
+								isItemAdded(id)
+									? '/img/svg/btn-checked.svg'
+									: '/img/svg/btn-plus.svg'
+							}
 							alt="Plus"
 						/>
 					</div>
 				</>
 			)}
 		</div>
+		
 	);
 };
 
