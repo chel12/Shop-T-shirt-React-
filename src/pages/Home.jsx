@@ -54,6 +54,7 @@ const Home = ({
 							added={cartItems.some(
 								(obj) => Number(obj.id) == Number(card.id)
 							)}
+							
 						/>
 					))}
 			</div>
