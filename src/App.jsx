@@ -127,6 +127,7 @@ function App() {
 					cartItems={cartItems}
 					onRemoveItem={onRemoveItem}
 					opened={cartOpened}
+				
 				/>
 
 				<Header onOpenDrawer={() => setCartOpened(true)}></Header>

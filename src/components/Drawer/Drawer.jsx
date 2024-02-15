@@ -34,6 +34,9 @@ const Drawer = ({ onRemoveItem, opened }) => {
 	const { setCartOpened } = useContext(AppContext);
 	return (
 		<div
+			// onClick={() => {
+			// 	setCartOpened(false);
+			// }} //если нужен клик по оверлей для закрытия
 			className={`${styles.overlay} ${
 				opened ? styles.overlayVisible : ''
 			}`}>
