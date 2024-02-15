@@ -1,0 +1,27 @@
+.blueButton {
+  position: relative;
+  width: 100%;
+  height: 55px;
+  background: rgba(98, 206, 253, 0.6705882353);
+  border-radius: 18px;
+  border: 0;
+  color: #050309;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.blueButton:hover img {
+  transform: translateX(-5px);
+}
+.blueButton img {
+  position: absolute;
+  left: 60px;
+  transition: transform 0.15s ease-in-out;
+}
+.blueButton:hover {
+  background: rgba(123, 214, 253, 0.6705882353);
+}
+.blueButton:active {
+  background: rgba(73, 198, 253, 0.6705882353);
+}

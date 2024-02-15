@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
+
 import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 import { useCard } from '../hooks/useCard';
 
-const Drawer = ({ onRemoveItem }) => {
-	
+import styles from './Drawer.module.scss';
+
+const Drawer = ({ onRemoveItem, opened }) => {
 	const { cartItems, setCartItems, totalPrice } = useCard();
 
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
@@ -31,13 +33,16 @@ const Drawer = ({ onRemoveItem }) => {
 
 	const { setCartOpened } = useContext(AppContext);
 	return (
-		<div className="overlay">
-			<div className="drawer">
+		<div
+			className={`${styles.overlay} ${
+				opened ? styles.overlayVisible : ''
+			}`}>
+			<div className={styles.drawer}>
 				<h2 className="d-flex justify-between mb-30 ">
 					Корзина
 					<img
 						onClick={() => setCartOpened(false)}
-						className="removeBtn cu-p"
+						className={` ${styles.removeBtn} cu-p`}
 						src="/img/svg/btn-remove.svg"
 						alt="Remove"
 					/>
@@ -45,16 +50,16 @@ const Drawer = ({ onRemoveItem }) => {
 
 				{cartItems.length > 0 ? (
 					<div className="d-flex flex-column flex">
-						<div className="items">
+						<div className={styles.items}>
 							{cartItems.map((item, index) => (
 								<div
-									className="cartItem d-flex align-center mb-20"
+									className={`${styles.cartItem} d-flex align-center mb-20`}
 									key={index}>
 									<div
 										style={{
 											backgroundImage: `url(${item.img})`,
 										}}
-										className="cartItemImg"></div>
+										className={styles.cartItemImg}></div>
 
 									<div className="mr-20 flex ">
 										<p className="mb-5">{item.title}</p>
@@ -64,14 +69,14 @@ const Drawer = ({ onRemoveItem }) => {
 										onClick={() => {
 											onRemoveItem(item.id);
 										}}
-										className="removeBtn"
+										className={styles.removeBtn}
 										src="/img/svg/btn-remove.svg"
 										alt="Remove"
 									/>
 								</div>
 							))}
 						</div>
-						<div className="cartTotalBlock">
+						<div className={styles.cartTotalBlock}>
 							<ul>
 								<li>
 									<span>Итого: </span>
@@ -85,7 +90,7 @@ const Drawer = ({ onRemoveItem }) => {
 								</li>
 							</ul>
 							<button
-								className="blueButton"
+								className={styles.blueButton}
 								disabled={isLoading}
 								onClick={onClickOrder}>
 								Оформить заказ

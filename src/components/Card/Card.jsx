@@ -25,7 +25,6 @@ const Card = ({
 	const onClickFavorite = () => {
 		addFavorite(obj);
 		setIsFavorite(!isFavorite);
-		
 	};
 
 	return (
@@ -64,17 +63,19 @@ const Card = ({
 			) : (
 				<>
 					<div className={styles.favorite}>
-						<img
-							onClick={onClickFavorite}
-							width={22}
-							height={22}
-							src={
-								isFavorite
-									? '/img/svg/heart-like.svg'
-									: '/img/svg/heart-unlike.svg'
-							}
-							alt="Favorite"
-						/>
+						{addFavorite && (
+							<img
+								onClick={onClickFavorite}
+								width={22}
+								height={22}
+								src={
+									isFavorite
+										? '/img/svg/heart-like.svg'
+										: '/img/svg/heart-unlike.svg'
+								}
+								alt="Favorite"
+							/>
+						)}
 					</div>
 					<img width={133} height={112} src={img} alt="T-shirt 1" />
 					<h5>{title}</h5>
@@ -84,18 +85,20 @@ const Card = ({
 							<b>{price}</b>
 						</div>
 
-						<img
-							width={30}
-							height={30}
-							className={styles.plus}
-							onClick={onClickPlus}
-							src={
-								isItemAdded(id)
-									? '/img/svg/btn-checked.svg'
-									: '/img/svg/btn-plus.svg'
-							}
-							alt="Plus"
-						/>
+						{addCartItem && (
+							<img
+								width={30}
+								height={30}
+								className={styles.plus}
+								onClick={onClickPlus}
+								src={
+									isItemAdded(id)
+										? '/img/svg/btn-checked.svg'
+										: '/img/svg/btn-plus.svg'
+								}
+								alt="Plus"
+							/>
+						)}
 					</div>
 				</>
 			)}

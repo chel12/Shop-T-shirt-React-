@@ -39,8 +39,6 @@ const Orders = () => {
 					<Card
 						key={card.id}
 						loading={isLoad}
-						addFavorite={(obj) => onFavorite(obj)}
-						addCartItem={(obj) => onAddToCart(obj)}
 						{...card}
 					/>
 				))}

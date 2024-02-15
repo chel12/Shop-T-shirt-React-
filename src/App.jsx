@@ -121,14 +121,14 @@ function App() {
 				setCartItems,
 				totalPrice,
 				onAddToCart,
-				
 			}}>
 			<Wrapper>
-				{cartOpened && (
-					<Drawer
-						cartItems={cartItems}
-						onRemoveItem={onRemoveItem}></Drawer>
-				)}
+				<Drawer
+					cartItems={cartItems}
+					onRemoveItem={onRemoveItem}
+					opened={cartOpened}
+				/>
+
 				<Header onOpenDrawer={() => setCartOpened(true)}></Header>
 				<Routes>
 					<Route
