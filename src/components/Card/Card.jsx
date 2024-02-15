@@ -15,7 +15,6 @@ const Card = ({
 }) => {
 	const { isItemAdded } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(favorited);
-
 	const obj = { title, price, img, id };
 
 	const onClickPlus = () => {
