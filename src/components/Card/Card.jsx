@@ -25,7 +25,7 @@ const Card = ({
 	const onClickFavorite = () => {
 		addFavorite(obj);
 		setIsFavorite(!isFavorite);
-		console.log();
+		
 	};
 
 	return (
@@ -89,9 +89,7 @@ const Card = ({
 							height={30}
 							className={styles.plus}
 							onClick={onClickPlus}
-							
 							src={
-								
 								isItemAdded(id)
 									? '/img/svg/btn-checked.svg'
 									: '/img/svg/btn-plus.svg'
@@ -102,7 +100,6 @@ const Card = ({
 				</>
 			)}
 		</div>
-		
 	);
 };
 

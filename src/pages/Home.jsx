@@ -9,7 +9,6 @@ const Home = ({
 	onAddToCart,
 	isLoading,
 }) => {
-	
 	const { onFavorite } = useContext(AppContext);
 
 	//вынес чтобы сделать компонент загрузки
@@ -18,7 +17,7 @@ const Home = ({
 			item.title.toLowerCase().includes(searchValue.toLowerCase())
 		);
 		const loadArr = Array(8).fill(1); //заглушка для лоадераф
-		return (isLoading ? loadArr : filtredItems).map((card) => (
+		return (isLoading ? loadArr : filtredItems).map((card, index) => (
 			<Card
 				loading={isLoading}
 				title={card.title}
@@ -26,7 +25,7 @@ const Home = ({
 				img={card.img}
 				addFavorite={(obj) => onFavorite(obj)}
 				addCartItem={(obj) => onAddToCart(obj)}
-				key={card.id}
+				key={index}
 			/>
 		));
 	};

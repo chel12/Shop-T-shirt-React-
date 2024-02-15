@@ -4,9 +4,11 @@ import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 
 const Drawer = ({ cartItems, onRemoveItem }) => {
+	const { totalPrice } = useContext(AppContext);
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [orderId, setOrderId] = useState(null);
+
 	const onClickOrder = async () => {
 		try {
 			setIsLoading(true);
@@ -71,12 +73,12 @@ const Drawer = ({ cartItems, onRemoveItem }) => {
 								<li>
 									<span>Итого: </span>
 									<div></div>
-									<b>10 000 руб.</b>
+									<b>{totalPrice} руб.</b>
 								</li>
 								<li>
-									<span>Налог 5%</span>
+									<span>Кешбек 5%</span>
 									<div></div>
-									<b>1 074 руб.</b>
+									<b>{totalPrice * 0.05} баллов</b>
 								</li>
 							</ul>
 							<button

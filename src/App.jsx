@@ -28,6 +28,9 @@ function App() {
 	//загрузка контроль
 	const [isLoading, setIsLoading] = useState(true);
 
+	//для цены
+	const totalPrice = cartItems.reduce((acc, item) => item.price + acc, 0);
+
 	const onChangeSearchInput = (e) => {
 		setSearchValue(e.target.value);
 	};
@@ -35,7 +38,7 @@ function App() {
 	//добавление карточки в корзину
 	const onAddToCart = (obj) => {
 		try {
-			if (cartItems.find((item) => Number(item.id) == Number(obj.id))) {
+			if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
 				axios.delete(
 					`https://f4b4503d373ac905.mokky.dev/cart/${obj.id}`
 				);
@@ -55,7 +58,7 @@ function App() {
 	//добавление карточки в Избранное
 	const onFavorite = async (obj) => {
 		try {
-			if (favorites.find((item) => Number(item.id) == Number(obj.id))) {
+			if (favorites.find((item) => Number(item.id) === Number(obj.id))) {
 				axios.delete(
 					`https://f4b4503d373ac905.mokky.dev/favorite/${obj.id}`
 				);
@@ -78,7 +81,7 @@ function App() {
 	const onRemoveItem = (id) => {
 		axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
 		setCartItems((prev) =>
-			prev.filter((item) => Number(item.id) != Number(id))
+			prev.filter((item) => Number(item.id) !== Number(id))
 		);
 	};
 
@@ -102,7 +105,7 @@ function App() {
 	}, []);
 
 	const isItemAdded = (id) => {
-		cartItems.some((obj) => Number(obj.id) == Number(id));
+		return cartItems.some((obj) => Number(obj.id) === Number(id));
 	};
 
 	return (
@@ -115,6 +118,7 @@ function App() {
 				onFavorite,
 				setCartOpened,
 				setCartItems,
+				totalPrice,
 			}}>
 			<Wrapper>
 				{cartOpened && (

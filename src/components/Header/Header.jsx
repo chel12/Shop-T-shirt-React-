@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../../App';
 
 const Header = ({ onOpenDrawer }) => {
+	const { totalPrice } = useContext(AppContext);
+
 	return (
 		<header className="d-flex justify-between align-center">
 			<Link to={'/'}>
@@ -45,7 +48,7 @@ const Header = ({ onOpenDrawer }) => {
 					</svg>
 				</li>
 				<li className="mr-30" onClick={onOpenDrawer}>
-					<span> 1 000 руб.</span>
+					<span> {totalPrice} руб.</span>
 				</li>
 				<li className="mr-10">
 					<Link to={'/favorite'}>
