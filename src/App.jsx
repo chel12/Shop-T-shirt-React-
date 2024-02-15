@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import Wrapper from './components/Wrapper/Wrapper';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import Orders from './pages/Orders';
 
 export const AppContext = createContext({});
 
@@ -144,6 +145,11 @@ function App() {
 					<Route
 						path="/favorite"
 						element={<Favorites onAddToCart={onAddToCart} />}
+						exact
+					/>
+					<Route
+						path="/orders"
+						element={<Orders onAddToCart={onAddToCart} />}
 						exact
 					/>
 				</Routes>

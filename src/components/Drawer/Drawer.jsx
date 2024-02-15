@@ -2,9 +2,12 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
+import { useCard } from '../hooks/useCard';
 
-const Drawer = ({ cartItems, onRemoveItem }) => {
-	const { totalPrice } = useContext(AppContext);
+const Drawer = ({ onRemoveItem }) => {
+	
+	const { cartItems, setCartItems, totalPrice } = useCard();
+
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [orderId, setOrderId] = useState(null);
@@ -26,7 +29,7 @@ const Drawer = ({ cartItems, onRemoveItem }) => {
 		setIsLoading(false);
 	};
 
-	const { setCartOpened, setCartItems } = useContext(AppContext);
+	const { setCartOpened } = useContext(AppContext);
 	return (
 		<div className="overlay">
 			<div className="drawer">
