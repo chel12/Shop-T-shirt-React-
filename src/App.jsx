@@ -120,6 +120,8 @@ function App() {
 				setCartOpened,
 				setCartItems,
 				totalPrice,
+				onAddToCart,
+				
 			}}>
 			<Wrapper>
 				{cartOpened && (
