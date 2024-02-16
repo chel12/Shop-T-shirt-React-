@@ -15,13 +15,14 @@ const Card = ({
 }) => {
 	const { isItemAdded } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(favorited);
-	const obj = { title, price, img, id };
+	const obj = { title, price, img, id, parentId: id };
 
 	const onClickPlus = () => {
 		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
+		console.log(obj);
 	};
 
-	const onClickFavorite = () => {
+	const onClickFavorite = (obj) => {
 		addFavorite(obj);
 		setIsFavorite(!isFavorite);
 	};

@@ -39,18 +39,35 @@ function App() {
 	//добавление карточки в корзину
 	const onAddToCart = async (obj) => {
 		try {
-			if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+			const findItem = cartItems.find(
+				(item) => Number(item.parentId) === Number(obj.id)
+			);
+			if (findItem) {
 				setCartItems((prev) =>
-					prev.filter((item) => Number(item.id) !== Number(obj.id))
+					prev.filter(
+						(item) => Number(item.parentId) !== Number(obj.id)
+					)
 				);
 				await axios.delete(
-					`https://f4b4503d373ac905.mokky.dev/cart/${obj.id}`
+					`https://f4b4503d373ac905.mokky.dev/cart/${findItem.id}`
 				);
 			} else {
 				setCartItems((prev) => [...prev, obj]);
-				await axios.post(
+				const { data } = await axios.post(
 					'https://f4b4503d373ac905.mokky.dev/cart',
 					obj
+				);
+				setCartItems((prev) =>
+					prev.map((item) => {
+						if (item.parentId == data.parentId) {
+							return {
+								...item,
+								id: data.id,
+							};
+						} else {
+							return item 
+						}
+					})
 				);
 			}
 			// это как setCartItems([...cartItems, obj]);
@@ -71,11 +88,11 @@ function App() {
 				);
 				// setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
 			} else {
-				setFavorites((prev) => [...prev, data]);
 				const { data } = await axios.post(
 					'https://f4b4503d373ac905.mokky.dev/favorite',
 					obj
 				);
+				setFavorites((prev) => [...prev, data]);
 			}
 		} catch (error) {
 			alert('Ошибка при добавление в избранное');
@@ -97,15 +114,24 @@ function App() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const getDataDrawer = await axios.get(
-					'https://f4b4503d373ac905.mokky.dev/cart'
-				);
-				const getDataFavorite = await axios.get(
-					'https://f4b4503d373ac905.mokky.dev/favorite'
-				);
-				const getData = await axios.get(
-					'https://f4b4503d373ac905.mokky.dev/items'
-				);
+				const [getDataDrawer, getDataFavorite, getData] =
+					await Promise.all([
+						//когда много запросов
+						axios.get('https://f4b4503d373ac905.mokky.dev/cart'),
+						axios.get(
+							'https://f4b4503d373ac905.mokky.dev/favorite'
+						),
+						axios.get('https://f4b4503d373ac905.mokky.dev/items'),
+					]);
+				// const getDataDrawer = await axios.get(
+				// 	'https://f4b4503d373ac905.mokky.dev/cart'
+				// );
+				// const getDataFavorite = await axios.get(
+				// 	'https://f4b4503d373ac905.mokky.dev/favorite'
+				// );
+				// const getData = await axios.get(
+				// 	'https://f4b4503d373ac905.mokky.dev/items'
+				// );
 				setIsLoading(false);
 				setCartItems(getDataDrawer.data);
 				setFavorites(getDataFavorite.data);
@@ -118,8 +144,10 @@ function App() {
 		fetchData();
 	}, []);
 
+	//проверка возьми обьект из корзины глянь его парент id и сверь его с ID из карточки
+
 	const isItemAdded = (id) => {
-		return cartItems.some((obj) => Number(obj.id) === Number(id));
+		return cartItems.some((obj) => Number(obj.parentId) === Number(id));
 	};
 
 	return (

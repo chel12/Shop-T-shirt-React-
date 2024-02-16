@@ -17,7 +17,7 @@ const Home = ({
 			item.title.toLowerCase().includes(searchValue.toLowerCase())
 		);
 		const loadArr = Array(8).fill(1); //заглушка для лоадераф
-		return (isLoading ? loadArr : filtredItems).map((card, index) => (
+		return (isLoading ? loadArr : filtredItems).map((card) => (
 			<Card
 				loading={isLoading}
 				title={card.title}
@@ -25,7 +25,8 @@ const Home = ({
 				img={card.img}
 				addFavorite={(obj) => onFavorite(obj)}
 				addCartItem={(obj) => onAddToCart(obj)}
-				key={index}
+				key={card.id}
+				{...card}
 			/>
 		));
 	};
