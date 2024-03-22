@@ -19,10 +19,9 @@ const Card = ({
 
 	const onClickPlus = () => {
 		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
-		console.log(obj);
 	};
 
-	const onClickFavorite = (obj) => {
+	const onClickFavorite = () => {
 		addFavorite(obj);
 		setIsFavorite(!isFavorite);
 	};

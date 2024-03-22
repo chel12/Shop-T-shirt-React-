@@ -57,6 +57,7 @@ function App() {
 					'https://f4b4503d373ac905.mokky.dev/cart',
 					obj
 				);
+				console.log(data);
 				setCartItems((prev) =>
 					prev.map((item) => {
 						if (item.parentId == data.parentId) {
@@ -65,7 +66,7 @@ function App() {
 								id: data.id,
 							};
 						} else {
-							return item 
+							return item;
 						}
 					})
 				);
@@ -78,27 +79,33 @@ function App() {
 	};
 	//добавление карточки в Избранное
 	const onFavorite = async (obj) => {
-		try {
-			if (favorites.find((item) => Number(item.id) === Number(obj.id))) {
-				setFavorites((prev) =>
-					prev.filter((item) => Number(item.id) !== Number(obj.id))
-				);
-				await axios.delete(
-					`https://f4b4503d373ac905.mokky.dev/favorite/${obj.id}`
-				);
-				// setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
-			} else {
-				const { data } = await axios.post(
-					'https://f4b4503d373ac905.mokky.dev/favorite',
-					obj
-				);
-				setFavorites((prev) => [...prev, data]);
-			}
-		} catch (error) {
-			alert('Ошибка при добавление в избранное');
-			console.log(error.message);
-		}
+		const { data } = await axios.post(
+			'https://f4b4503d373ac905.mokky.dev/favorite',
+			obj
+		);
+		console.log(data);
+		// try {
+		// 	if (favorites.find((item) => Number(item.id) === Number(obj.id))) {
+		// 		setFavorites((prev) =>
+		// 			prev.filter((item) => Number(item.id) !== Number(obj.id))
+		// 		);
+		// 		await axios.delete(
+		// 			`https://f4b4503d373ac905.mokky.dev/favorite/${obj.id}`
+		// 		);
+		// 		// setFavorites((prev) => prev.filter((item) => item.id !== obj.id));
+		// 	} else {
+		// 		const { data } = await axios.post(
+		// 			'https://f4b4503d373ac905.mokky.dev/favorite',
+		// 			obj
+		// 		);
+		// 		setFavorites((prev) => [...prev, data]);
+		// 	}
+		// } catch (error) {
+		// 	alert('Ошибка при добавление в избранное');
+		// 	console.log(error.message);
+		// }
 	};
+
 	const onRemoveItem = async (id) => {
 		try {
 			await axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
