@@ -11,11 +11,13 @@ const Favorites = () => {
 			</div>
 
 			<div className="d-flex flex-wrap">
-				{favorites.map(({...card}) => (
+				{favorites.map(({ ...card }) => (
 					<Card
 						key={card.id}
 						favorited={true}
-						addFavorite={(obj) => onFavorite(obj)}
+						addFavorite={(obj) => {
+							onFavorite(obj);
+						}}
 						{...card}
 					/>
 				))}

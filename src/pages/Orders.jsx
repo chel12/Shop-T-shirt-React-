@@ -7,7 +7,7 @@ const Orders = () => {
 	const [orders, setOrders] = useState([]);
 	const [isLoad, setIsLoad] = useState(true);
 
-	const { onFavorite, onAddToCart } = useContext(AppContext);
+	// const { onFavorite, onAddToCart } = useContext(AppContext);
 
 	useEffect(() => {
 		(async () => {

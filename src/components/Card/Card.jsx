@@ -9,13 +9,22 @@ const Card = ({
 	img,
 	addFavorite,
 	addCartItem,
-	favorited = false,
 	id,
 	loading = false,
+	favorited = false,
 }) => {
-	const { isItemAdded } = useContext(AppContext);
+	const { isItemAdded, isItemFavorite } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(favorited);
-	const obj = { title, price, img, id, parentId: id };
+	//описание того что передаём, parent и favorite нужны для того чтобы
+	//не потерять обьект и определить его
+	const obj = {
+		title,
+		price,
+		img,
+		id,
+		parentId: id,
+		favoriteId: id,
+	};
 
 	const onClickPlus = () => {
 		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
@@ -23,7 +32,7 @@ const Card = ({
 
 	const onClickFavorite = () => {
 		addFavorite(obj);
-		setIsFavorite(!isFavorite);
+		
 	};
 
 	return (
@@ -68,7 +77,7 @@ const Card = ({
 								width={22}
 								height={22}
 								src={
-									isFavorite
+									isItemFavorite(id) || isFavorite
 										? '/img/svg/heart-like.svg'
 										: '/img/svg/heart-unlike.svg'
 								}
