@@ -80,11 +80,12 @@ function App() {
 	};
 	//добавление карточки в Избранное
 	const onFavorite = async (obj) => {
+		console.log(obj);
 		try {
 			const findItem = favorites.find(
 				(item) => Number(item.favoriteId) === Number(obj.id)
 			);
-			console.log(findItem);
+		
 			if (findItem) {
 				setFavorites((prev) =>
 					prev.filter(
@@ -101,7 +102,7 @@ function App() {
 					'https://f4b4503d373ac905.mokky.dev/favorite',
 					obj
 				);
-				console.log(data);
+
 				setFavorites((prev) =>
 					prev.map((item) => {
 						if (item.favoriteId === data.favoriteId) {
