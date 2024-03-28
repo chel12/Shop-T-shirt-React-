@@ -5,15 +5,20 @@ import axios from 'axios';
 export const fetchOrder = createAsyncThunk(
 	'order/fetchOrdersStatus',
 	async () => {
-		const { data } = await axios.get(
-			'https://f4b4503d373ac905.mokky.dev/orders'
-		);
-		return data;
+		try {
+			const { data } = await axios.get(
+				'https://f4b4503d373ac905.mokky.dev/orders'
+			);
+			return data;
+		} catch (error) {
+			alert('Ошибка при запросе покупок');
+			console.log(error.message);
+		}
 	}
 );
 
 const initialState = {
-	orderItems: [],
+	orderItems: { items: [] },
 	status: 'loading', //loading | success | error (для контроля скелетона)
 };
 
@@ -42,8 +47,6 @@ export const itemsSlice = createSlice({
 			});
 	},
 });
-//селекторы
-// export const selectGameData = (state) => state.game;
 
 // Action creators are generated for each case reducer function
 export const { setOrder } = itemsSlice.actions;

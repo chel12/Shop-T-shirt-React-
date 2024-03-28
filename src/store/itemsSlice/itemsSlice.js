@@ -5,10 +5,15 @@ import axios from 'axios';
 export const fetchItems = createAsyncThunk(
 	'items/fetchItemsStatus',
 	async () => {
-		const { data } = await axios.get(
-			'https://f4b4503d373ac905.mokky.dev/items'
-		);
-		return data;
+		try {
+			const { data } = await axios.get(
+				'https://f4b4503d373ac905.mokky.dev/items'
+			);
+			return data;
+		} catch (error) {
+			alert('Ошибка при запросе данных');
+			console.log(error.message);
+		}
 	}
 );
 
@@ -42,8 +47,6 @@ export const itemsSlice = createSlice({
 			});
 	},
 });
-//селекторы
-// export const selectGameData = (state) => state.game;
 
 // Action creators are generated for each case reducer function
 export const { setItems } = itemsSlice.actions;

@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import favoriteSlice from './favoriteSlice/favoriteSlice';
-import orderSlice from './orderSlice/orderSlice';
-import cartSlice from './cartSlice/cartSlice';
-import dataSlice from './dataSlice/dataSlice';
+import favorite from './favoriteSlice/favoriteSlice';
+import order from './orderSlice/orderSlice';
+import cart from './cartSlice/cartSlice';
+import items from './itemsSlice/itemsSlice';
 
 export const store = configureStore({
 	reducer: {
-		favoriteSlice,
-		orderSlice,
-		cartSlice,
-		dataSlice,
+		favorite,
+		order,
+		cart,
+		items,
 	},
 });

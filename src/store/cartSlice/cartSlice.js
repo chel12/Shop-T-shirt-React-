@@ -2,15 +2,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 //перейти,достать,вернуть (Санка получения данных)
-export const fetchCart = createAsyncThunk(
-	'cart/fetchCartsStatus',
-	async () => {
+export const fetchCart = createAsyncThunk('cart/fetchCartsStatus', async () => {
+	try {
 		const { data } = await axios.get(
 			'https://f4b4503d373ac905.mokky.dev/cart'
 		);
 		return data;
+	} catch (error) {
+		alert('Ошибка при запросе карточек корзины');
+		console.log(error.message);
 	}
-);
+});
 
 const initialState = {
 	cartItems: [],
@@ -42,8 +44,6 @@ export const cartSlice = createSlice({
 			});
 	},
 });
-//селекторы
-// export const selectGameData = (state) => state.game;
 
 // Action creators are generated for each case reducer function
 export const { setCartItems } = cartSlice.actions;
