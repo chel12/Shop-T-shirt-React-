@@ -5,15 +5,11 @@ import axios from 'axios';
 export const fetchItems = createAsyncThunk(
 	'items/fetchItemsStatus',
 	async () => {
-		try {
-			const { data } = await axios.get(
-				'https://f4b4503d373ac905.mokky.dev/items'
-			);
-			return data;
-		} catch (error) {
-			alert('Ошибка при запросе данных');
-			console.log(error.message);
-		}
+		const { data } = await axios.get(
+			'https://f4b4503d373ac905.mokky.dev/items'
+		);
+		
+		return data;
 	}
 );
 

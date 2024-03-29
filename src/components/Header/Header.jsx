@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCard } from '../hooks/useCard';
+import { useSelector } from 'react-redux';
+import { getTotalPrice } from '../../store/cartSlice/cartSlice';
 
 const Header = ({ onOpenDrawer }) => {
-	const { totalPrice } = useCard();
+	const totalPrice = useSelector(getTotalPrice);
 
 	return (
 		<header className="d-flex justify-between align-center">

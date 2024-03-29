@@ -3,18 +3,19 @@ import React, { useContext, useState } from 'react';
 
 import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
-import { useCard } from '../hooks/useCard';
-
 import styles from './Drawer.module.scss';
-import { onRemoveItem } from '../../store/cartSlice/cartSlice';
-import { useDispatch } from 'react-redux';
+import { getTotalPrice, onRemoveItem, setCartItems } from '../../store/cartSlice/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllItems } from '../../store/itemsSlice/selectItems';
 
 const Drawer = ({ opened }) => {
-	const { cartItems, setCartItems, totalPrice } = useCard();
+	const cartItems = useSelector(selectAllItems);
+	const totalPrice = useSelector(getTotalPrice)
 
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [orderId, setOrderId] = useState(null);
+
 	const dispatch = useDispatch();
 
 	const onClickOrder = async () => {
@@ -27,7 +28,7 @@ const Drawer = ({ opened }) => {
 			await axios.patch('https://f4b4503d373ac905.mokky.dev/cart', []);
 			setOrderId(data.id);
 			setIsOrderComplete(true);
-			setCartItems([]);
+			dispatch(setCartItems([]));
 		} catch (error) {
 			console.log(error.message);
 		}

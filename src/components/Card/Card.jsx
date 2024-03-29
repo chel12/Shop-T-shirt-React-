@@ -10,7 +10,6 @@ const Card = ({
 	title,
 	price,
 	img,
-	// addFavorite,
 	id,
 	loading = false,
 	favorited = false,

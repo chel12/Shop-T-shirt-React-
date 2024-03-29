@@ -25,9 +25,6 @@ function App() {
 	//загрузка контроль
 	const [isLoading, setIsLoading] = useState(true);
 
-	//для цены
-	const totalPrice = useSelector(getTotalPrice);
-
 	const dispatch = useDispatch();
 	const cartItems = useSelector(selectAllItems);
 	const favorites = useSelector(selectFavorites);
@@ -36,13 +33,11 @@ function App() {
 		setSearchValue(e.target.value);
 	};
 
-
-
 	//множественный запрос
 	useEffect(() => {
-		dispatch(fetchItems);
-		dispatch(fetchCart);
-		dispatch(fetchFavorite);
+		dispatch(fetchItems());
+		dispatch(fetchCart());
+		dispatch(fetchFavorite());
 	}, []);
 
 	//проверка возьми обьект из корзины глянь его парент id и сверь его с ID из карточки
@@ -58,21 +53,12 @@ function App() {
 		<AppContext.Provider
 			value={{
 				cartItems,
-
 				isItemAdded,
 				isItemFavorite,
-			
 				setCartOpened,
-				
-				totalPrice,
-				
 			}}>
 			<Wrapper>
-				<Drawer
-					cartItems={cartItems}
-				
-					opened={cartOpened}
-				/>
+				<Drawer cartItems={cartItems} opened={cartOpened} />
 
 				<Header onOpenDrawer={() => setCartOpened(true)}></Header>
 				<Routes>

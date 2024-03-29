@@ -1,49 +1,48 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 //перейти,достать,вернуть (Санка получения данных)
 export const fetchFavorite = createAsyncThunk(
 	'favorite/fetchFavoriteStatus',
 	async () => {
-		try {
-			const { data } = await axios.get(
-				'https://f4b4503d373ac905.mokky.dev/favorite'
-			);
-			return data;
-		} catch (error) {
-			alert('Ошибка при запросе Избранных');
-			console.log(error.message);
-		}
+		const { data } = await axios.get(
+			'https://f4b4503d373ac905.mokky.dev/favorite'
+		);
+		return data;
 	}
 );
 
 export const onFavorite = createAsyncThunk(
 	'favorite/addOnFavorite',
 	async (obj) => {
-		console.log(obj);
-		try {
-			const findItem = (state) =>
-				state.favorite.favoriteItems.find(
-					(item) => Number(item.favoriteId) === Number(obj.id)
-				);
+		const dispatch = useDispatch();
 
-			if (findItem) {
+		const findItem = (state) =>
+			state.favorite.favoriteItems.find(
+				(item) => Number(item.favoriteId) === Number(obj.id)
+			);
+
+		if (findItem) {
+			dispatch(
 				setFavorite((prev) =>
 					prev.filter(
 						(item) => Number(item.favoriteId) !== Number(obj.id)
 					)
-				);
-				await axios.delete(
-					`https://f4b4503d373ac905.mokky.dev/favorite/${findItem.id}`
-				);
-			} else {
-				setFavorite((prev) => [...prev, obj]);
+				)
+			);
+			await axios.delete(
+				`https://f4b4503d373ac905.mokky.dev/favorite/${findItem.id}`
+			);
+		} else {
+			dispatch(setFavorite((prev) => [...prev, obj]));
 
-				const { data } = await axios.post(
-					'https://f4b4503d373ac905.mokky.dev/favorite',
-					obj
-				);
+			const { data } = await axios.post(
+				'https://f4b4503d373ac905.mokky.dev/favorite',
+				obj
+			);
 
+			dispatch(
 				setFavorite((prev) =>
 					prev.map((item) => {
 						if (item.favoriteId === data.favoriteId) {
@@ -55,11 +54,8 @@ export const onFavorite = createAsyncThunk(
 							return item;
 						}
 					})
-				);
-			}
-		} catch (error) {
-			alert('Ошибка при добавление в избранное');
-			console.log(error.message);
+				)
+			);
 		}
 	}
 );
