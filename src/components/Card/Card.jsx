@@ -2,17 +2,20 @@ import React, { useContext, useState } from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
 import { AppContext } from '../../App';
+import { useDispatch } from 'react-redux';
+import { onAddToCart } from '../../store/cartSlice/cartSlice';
+import { onFavorite } from '../../store/favoriteSlice/favoriteSlice';
 
 const Card = ({
 	title,
 	price,
 	img,
-	addFavorite,
-	addCartItem,
+	// addFavorite,
 	id,
 	loading = false,
 	favorited = false,
 }) => {
+	const dispatch = useDispatch();
 	const { isItemAdded, isItemFavorite } = useContext(AppContext);
 	const [isFavorite, setIsFavorite] = useState(favorited);
 	//описание того что передаём, parent и favorite нужны для того чтобы
@@ -27,12 +30,11 @@ const Card = ({
 	};
 
 	const onClickPlus = () => {
-		addCartItem(obj); //показать обьект, и эта инфа  уйдёт в вверх
+		dispatch(onAddToCart(obj)); //показать обьект, и эта инфа  уйдёт в вверх
 	};
 
 	const onClickFavorite = () => {
-		addFavorite(obj);
-		
+		dispatch(onFavorite(obj));
 	};
 
 	return (
@@ -71,7 +73,7 @@ const Card = ({
 			) : (
 				<>
 					<div className={styles.favorite}>
-						{addFavorite && (
+						{onFavorite && (
 							<img
 								onClick={onClickFavorite}
 								width={22}
@@ -93,7 +95,7 @@ const Card = ({
 							<b>{price}</b>
 						</div>
 
-						{addCartItem && (
+						{onAddToCart && (
 							<img
 								width={30}
 								height={30}

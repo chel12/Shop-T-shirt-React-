@@ -1,2 +1,2 @@
 //селекторы
-export const selectGameData = (state) => state.favorite.favoriteItems;
+export const selectFavorites = (state) => state.favorite.favoriteItems;

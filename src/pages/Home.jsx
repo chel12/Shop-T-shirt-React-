@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../App';
 import Card from '../components/Card/Card';
+import { useSelector } from 'react-redux';
+import { selectAllItems } from '../store/itemsSlice/selectItems';
 
-const Home = ({
-	searchValue,
-	onChangeSearchInput,
-	data,
-	onAddToCart,
-	isLoading,
-}) => {
+const Home = ({ searchValue, onChangeSearchInput, onAddToCart, isLoading }) => {
 	const { onFavorite } = useContext(AppContext);
-
+	
+	const data = useSelector(selectAllItems);
 	//вынес чтобы сделать компонент загрузки
 	const renderItems = () => {
 		const filtredItems = data.filter((item) =>
@@ -24,7 +21,7 @@ const Home = ({
 				price={card.price}
 				img={card.img}
 				addFavorite={(obj) => onFavorite(obj)}
-				addCartItem={(obj) => onAddToCart(obj)}
+				
 				key={card.id}
 				{...card}
 			/>

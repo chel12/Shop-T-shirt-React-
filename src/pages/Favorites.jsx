@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import Card from '../components/Card/Card';
 import { AppContext } from '../App';
+import { useSelector } from 'react-redux';
+import { selectFavorites } from '../store/favoriteSlice/selectFavorite';
 
 const Favorites = () => {
-	const { favorites, onFavorite } = useContext(AppContext);
+	const favorites = useSelector(selectFavorites);
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">
@@ -15,9 +17,9 @@ const Favorites = () => {
 					<Card
 						key={card.id}
 						favorited={true}
-						addFavorite={(obj) => {
-							onFavorite(obj);
-						}}
+						// addFavorite={(obj) => {
+						// 	onFavorite(obj);
+						// }}
 						{...card}
 					/>
 				))}

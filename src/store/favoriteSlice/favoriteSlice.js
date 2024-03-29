@@ -17,6 +17,53 @@ export const fetchFavorite = createAsyncThunk(
 	}
 );
 
+export const onFavorite = createAsyncThunk(
+	'favorite/addOnFavorite',
+	async (obj) => {
+		console.log(obj);
+		try {
+			const findItem = (state) =>
+				state.favorite.favoriteItems.find(
+					(item) => Number(item.favoriteId) === Number(obj.id)
+				);
+
+			if (findItem) {
+				setFavorite((prev) =>
+					prev.filter(
+						(item) => Number(item.favoriteId) !== Number(obj.id)
+					)
+				);
+				await axios.delete(
+					`https://f4b4503d373ac905.mokky.dev/favorite/${findItem.id}`
+				);
+			} else {
+				setFavorite((prev) => [...prev, obj]);
+
+				const { data } = await axios.post(
+					'https://f4b4503d373ac905.mokky.dev/favorite',
+					obj
+				);
+
+				setFavorite((prev) =>
+					prev.map((item) => {
+						if (item.favoriteId === data.favoriteId) {
+							return {
+								...item,
+								id: data.id,
+							};
+						} else {
+							return item;
+						}
+					})
+				);
+			}
+		} catch (error) {
+			alert('Ошибка при добавление в избранное');
+			console.log(error.message);
+		}
+	}
+);
+
 const initialState = {
 	favoriteItems: [],
 	status: 'loading', //loading | success | error (для контроля скелетона)
@@ -27,7 +74,7 @@ export const favoriteSlice = createSlice({
 	initialState,
 	reducers: {
 		setFavorite(state, action) {
-			state.favoriteItems.items = action.payload;
+			state.favoriteItems = action.payload;
 		},
 	},
 	extraReducers: (builder) => {

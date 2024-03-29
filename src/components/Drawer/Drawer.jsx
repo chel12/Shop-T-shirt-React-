@@ -6,13 +6,16 @@ import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 import { useCard } from '../hooks/useCard';
 
 import styles from './Drawer.module.scss';
+import { onRemoveItem } from '../../store/cartSlice/cartSlice';
+import { useDispatch } from 'react-redux';
 
-const Drawer = ({ onRemoveItem, opened }) => {
+const Drawer = ({ opened }) => {
 	const { cartItems, setCartItems, totalPrice } = useCard();
 
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [orderId, setOrderId] = useState(null);
+	const dispatch = useDispatch();
 
 	const onClickOrder = async () => {
 		try {
@@ -70,7 +73,7 @@ const Drawer = ({ onRemoveItem, opened }) => {
 									</div>
 									<img
 										onClick={() => {
-											onRemoveItem(item.id);
+											dispatch(onRemoveItem(item.id));
 										}}
 										className={styles.removeBtn}
 										src="/img/svg/btn-remove.svg"
