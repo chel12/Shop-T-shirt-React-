@@ -1,18 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
-import { AppContext } from '../../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { onAddToCart } from '../../store/cartSlice/cartSlice';
-import {
-	onFavorite,
-	setFavorite,
-} from '../../store/favoriteSlice/favoriteSlice';
+import { v4 as uuidv4 } from 'uuid';
+import { onFavorite } from '../../store/favoriteSlice/favoriteSlice';
 import {
 	selectAllItems,
 	selectGetItemsStatus,
 } from '../../store/itemsSlice/selectItems';
-import axios from 'axios';
 import { selectFavorites } from '../../store/favoriteSlice/selectFavorite';
 
 const Card = ({ title, price, img, id, favorited = false }) => {
@@ -46,7 +42,6 @@ const Card = ({ title, price, img, id, favorited = false }) => {
 
 	const onClickFavorite = () => {
 		dispatch(onFavorite(obj));
-
 	};
 
 	return (
