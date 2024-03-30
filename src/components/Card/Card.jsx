@@ -2,20 +2,32 @@ import React, { useContext, useState } from 'react';
 import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
 import { AppContext } from '../../App';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { onAddToCart } from '../../store/cartSlice/cartSlice';
-import { onFavorite } from '../../store/favoriteSlice/favoriteSlice';
+import {
+	onFavorite,
+	setFavorite,
+} from '../../store/favoriteSlice/favoriteSlice';
+import {
+	selectAllItems,
+	selectGetItemsStatus,
+} from '../../store/itemsSlice/selectItems';
+import axios from 'axios';
+import { selectFavorites } from '../../store/favoriteSlice/selectFavorite';
 
-const Card = ({
-	title,
-	price,
-	img,
-	id,
-	loading = false,
-	favorited = false,
-}) => {
+const Card = ({ title, price, img, id, favorited = false }) => {
 	const dispatch = useDispatch();
-	const { isItemAdded, isItemFavorite } = useContext(AppContext);
+	const isLoading = useSelector(selectGetItemsStatus);
+	const favorites = useSelector(selectFavorites);
+	const cartItems = useSelector(selectAllItems);
+
+	const isItemAdded = (id) => {
+		return cartItems.some((obj) => Number(obj.parentId) === Number(id));
+	};
+	const isItemFavorite = (id) => {
+		return favorites.some((obj) => Number(obj.favoriteId) === Number(id));
+	};
+
 	const [isFavorite, setIsFavorite] = useState(favorited);
 	//описание того что передаём, parent и favorite нужны для того чтобы
 	//не потерять обьект и определить его
@@ -34,11 +46,12 @@ const Card = ({
 
 	const onClickFavorite = () => {
 		dispatch(onFavorite(obj));
+
 	};
 
 	return (
 		<div className={styles.card}>
-			{loading ? (
+			{isLoading === 'loading' ? (
 				<ContentLoader
 					speed={2}
 					width={150}

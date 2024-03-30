@@ -1,28 +1,27 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../App';
+
 import Card from '../components/Card/Card';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllItems } from '../store/itemsSlice/selectItems';
+import {
+	selectAllItems,
+	selectGetItemsStatus,
+} from '../store/itemsSlice/selectItems';
 import { onFavorite } from '../store/favoriteSlice/favoriteSlice';
 
-const Home = ({ searchValue, onChangeSearchInput, isLoading }) => {
+const Home = ({ searchValue, onChangeSearchInput }) => {
 	const dispatch = useDispatch();
-	
+	const isLoading = useSelector(selectGetItemsStatus);
 	const data = useSelector(selectAllItems);
 	//вынес чтобы сделать компонент загрузки
 	const renderItems = () => {
 		const filtredItems = data.filter((item) =>
 			item.title.toLowerCase().includes(searchValue.toLowerCase())
 		);
-		console.log(filtredItems)
 		const loadArr = Array(8).fill(1); //заглушка для лоадераф
-		return (isLoading ? loadArr : filtredItems).map((card) => (
+		return (isLoading === 'loading' ? loadArr : filtredItems).map((card) => (
 			<Card
-				loading={isLoading}
 				title={card.title}
 				price={card.price}
 				img={card.img}
-				addFavorite={(obj) => dispatch(onFavorite(obj))}
 				key={card.id}
 				{...card}
 			/>
