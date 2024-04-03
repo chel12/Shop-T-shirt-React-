@@ -6,12 +6,11 @@ import Wrapper from './components/Wrapper/Wrapper';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Orders from './pages/Orders';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchItems } from './store/itemsSlice/itemsSlice';
 import { fetchCart } from './store/cartSlice/cartSlice';
 import { fetchFavorite } from './store/favoriteSlice/favoriteSlice';
-import { selectAllItems } from './store/itemsSlice/selectItems';
-import { selectFavorites } from './store/favoriteSlice/selectFavorite';
+
 
 export const AppContext = createContext({});
 

@@ -8,7 +8,6 @@ export const fetchItems = createAsyncThunk(
 		const { data } = await axios.get(
 			'https://f4b4503d373ac905.mokky.dev/items'
 		);
-		
 		return data;
 	}
 );

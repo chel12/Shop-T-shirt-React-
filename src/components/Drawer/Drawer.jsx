@@ -4,13 +4,17 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../../App';
 import EmptyDrawer from '../EmptyDrawer/EmptyDrawer';
 import styles from './Drawer.module.scss';
-import { getTotalPrice, onRemoveItem, setCartItems } from '../../store/cartSlice/cartSlice';
+import {
+	getTotalPrice,
+	onRemoveItem,
+	setCartItems,
+} from '../../store/cartSlice/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllItems } from '../../store/itemsSlice/selectItems';
+import { selectCartItems } from '../../store/cartSlice/selectCart';
 
 const Drawer = ({ opened }) => {
-	const cartItems = useSelector(selectAllItems);
-	const totalPrice = useSelector(getTotalPrice)
+	const cartItems = useSelector(selectCartItems);
+	const totalPrice = useSelector(getTotalPrice);
 
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +78,7 @@ const Drawer = ({ opened }) => {
 									</div>
 									<img
 										onClick={() => {
-											dispatch(onRemoveItem(item.id));
+											dispatch(onRemoveItem(item));
 										}}
 										className={styles.removeBtn}
 										src="/img/svg/btn-remove.svg"

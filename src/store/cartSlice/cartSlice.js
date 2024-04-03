@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 
 //перейти,достать,вернуть (Санка получения данных)
 export const fetchCart = createAsyncThunk('cart/fetchCartsItems', async () => {
@@ -9,57 +8,39 @@ export const fetchCart = createAsyncThunk('cart/fetchCartsItems', async () => {
 });
 
 //добавление карточки в корзину
-export const onAddToCart = createAsyncThunk('cart/onAddToCart', async (obj) => {
-	const dispatch = useDispatch();
-
-	const findItem = (state) =>
-		state.cart.cartItems.find(
-			(item) => Number(item.parentId) === Number(obj.id)
+export const onAddToCart = createAsyncThunk(
+	'cart/onAddToCart',
+	async (obj, { getState, dispatch }) => {
+		const state = getState();
+		const findObj = state.cart.cartItems.find(
+			(item) => item.title === obj.title
 		);
 
-	if (findItem) {
-		dispatch(
-			setCartItems((prev) =>
-				prev.filter((item) => Number(item.parentId) !== Number(obj.id))
-			)
-		);
-		await axios.delete(
-			`https://f4b4503d373ac905.mokky.dev/cart/${findItem.id}`
-		);
-	} else {
-		dispatch(setCartItems((prev) => [...prev, obj]));
-		const { data } = await axios.post(
-			'https://f4b4503d373ac905.mokky.dev/cart',
-			obj
-		);
-		dispatch(
-			setCartItems((prev) =>
-				prev.map((item) => {
-					if (item.parentId === data.parentId) {
-						return {
-							...item,
-							id: data.id,
-						};
-					} else {
-						return item;
-					}
-				})
-			)
-		);
+		if (findObj) {
+			await axios.delete(
+				`https://f4b4503d373ac905.mokky.dev/cart/${findObj.id}`
+			);
+			dispatch(removeCartItems(findObj));
+
+			dispatch(fetchCart());
+		} else {
+			const { data } = await axios.post(
+				'https://f4b4503d373ac905.mokky.dev/cart',
+				obj
+			);
+			dispatch(addCartItems(data));
+			dispatch(fetchCart());
+		}
+		// это как setCartItems([...cartItems, obj]);
 	}
-	// это как setCartItems([...cartItems, obj]);
-});
+);
+
 export const onRemoveItem = createAsyncThunk(
 	'cart/onRemoveCart',
-	async (id) => {
-		const dispatch = useDispatch();
-
-		await axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${id}`);
-		dispatch(
-			setCartItems((prev) =>
-				prev.filter((item) => Number(item.id) !== Number(id))
-			)
-		);
+	async (obj, { dispatch }) => {
+		await axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${obj.id}`);
+		dispatch(delCartItem(obj));
+		dispatch(fetchCart());
 	}
 );
 
@@ -75,6 +56,15 @@ export const cartSlice = createSlice({
 	reducers: {
 		setCartItems(state, action) {
 			state.cartItems = action.payload;
+		},
+		addCartItems(state, action) {
+			state.cartItems.push(action.payload);
+		},
+		removeCartItems(state, action) {
+			state.cartItems.filter((item) => item.id !== action.payload.id);
+		},
+		delCartItem(state, action) {
+			state.cartItems.filter((item) => item.parentId !== action.payload);
 		},
 	},
 	extraReducers: (builder) => {
@@ -100,6 +90,7 @@ export const getTotalPrice = (state) => {
 };
 
 // Action creators are generated for each case reducer function
-export const { setCartItems } = cartSlice.actions;
+export const { setCartItems, addCartItems, removeCartItems, delCartItem } =
+	cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useActionData } from 'react-router';
 
 //перейти,достать,вернуть (Санка получения данных)
 export const fetchFavorite = createAsyncThunk(
@@ -8,6 +9,7 @@ export const fetchFavorite = createAsyncThunk(
 		const { data } = await axios.get(
 			'https://f4b4503d373ac905.mokky.dev/favorite'
 		);
+		console.log(data);
 		return data;
 	}
 );

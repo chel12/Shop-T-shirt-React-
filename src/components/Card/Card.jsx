@@ -3,28 +3,26 @@ import styles from './Card.module.scss';
 import ContentLoader from 'react-content-loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { onAddToCart } from '../../store/cartSlice/cartSlice';
-import { v4 as uuidv4 } from 'uuid';
 import { onFavorite } from '../../store/favoriteSlice/favoriteSlice';
-import {
-	selectAllItems,
-	selectGetItemsStatus,
-} from '../../store/itemsSlice/selectItems';
+import { selectGetItemsStatus } from '../../store/itemsSlice/selectItems';
 import { selectFavorites } from '../../store/favoriteSlice/selectFavorite';
+import { selectCartItems } from '../../store/cartSlice/selectCart';
 
-const Card = ({ title, price, img, id, favorited = false }) => {
+const Card = ({ title, price, img, id} ) => {
 	const dispatch = useDispatch();
 	const isLoading = useSelector(selectGetItemsStatus);
 	const favorites = useSelector(selectFavorites);
-	const cartItems = useSelector(selectAllItems);
+	const cartItems = useSelector(selectCartItems);
 
 	const isItemAdded = (id) => {
 		return cartItems.some((obj) => Number(obj.parentId) === Number(id));
 	};
+
 	const isItemFavorite = (id) => {
-		return favorites.some((obj) => Number(obj.favoriteId) === Number(id));
+		return favorites.some((obj) => Number(obj.parentId) === Number(id));
 	};
 
-	const [isFavorite, setIsFavorite] = useState(favorited);
+	
 	//описание того что передаём, parent и favorite нужны для того чтобы
 	//не потерять обьект и определить его
 	const obj = {
@@ -33,7 +31,6 @@ const Card = ({ title, price, img, id, favorited = false }) => {
 		img,
 		id,
 		parentId: id,
-		favoriteId: id,
 	};
 
 	const onClickPlus = () => {
@@ -86,7 +83,7 @@ const Card = ({ title, price, img, id, favorited = false }) => {
 								width={22}
 								height={22}
 								src={
-									isItemFavorite(id) || isFavorite
+									isItemFavorite(id) 
 										? '/img/svg/heart-like.svg'
 										: '/img/svg/heart-unlike.svg'
 								}
