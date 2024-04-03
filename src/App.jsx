@@ -21,9 +21,8 @@ function App() {
 
 	const [searchValue, setSearchValue] = useState('');
 
-
 	const dispatch = useDispatch();
-	
+
 	const onChangeSearchInput = (e) => {
 		setSearchValue(e.target.value);
 	};
@@ -37,15 +36,13 @@ function App() {
 
 	//проверка возьми обьект из корзины глянь его парент id и сверь его с ID из карточки
 
-	
-
 	return (
 		<AppContext.Provider
 			value={{
 				setCartOpened,
 			}}>
 			<Wrapper>
-				<Drawer  opened={cartOpened} />
+				<Drawer opened={cartOpened} />
 
 				<Header onOpenDrawer={() => setCartOpened(true)}></Header>
 				<Routes>
@@ -53,7 +50,6 @@ function App() {
 						path="/"
 						element={
 							<Home
-								
 								searchValue={searchValue}
 								onChangeSearchInput={onChangeSearchInput}
 							/>

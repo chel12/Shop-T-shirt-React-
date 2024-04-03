@@ -17,19 +17,22 @@ export const onFavorite = createAsyncThunk(
 	async (obj, { getState, dispatch }) => {
 		const state = getState();
 		const findObj = state.favorite.favoriteItems.find(
-			(item) => item.favoriteId === obj.favoriteId
+			(item) => item.title === obj.title
 		);
+
 		if (findObj) {
 			await axios.delete(
 				`https://f4b4503d373ac905.mokky.dev/favorite/${findObj.id}`
 			);
 			dispatch(delFavorite(findObj));
+			dispatch(fetchFavorite());
 		} else {
 			const { data } = await axios.post(
 				'https://f4b4503d373ac905.mokky.dev/favorite',
 				obj
 			);
 			dispatch(addFavorite(data));
+			dispatch(fetchFavorite());
 		}
 	}
 );
@@ -43,6 +46,9 @@ export const favoriteSlice = createSlice({
 	name: 'favorite',
 	initialState,
 	reducers: {
+		// addFavorite(state, action) {
+		// 	state.favoriteItems.push(action.payload);
+		// },
 		addFavorite(state, action) {
 			state.favoriteItems.push(action.payload);
 		},
