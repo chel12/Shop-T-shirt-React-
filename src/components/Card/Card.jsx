@@ -8,21 +8,20 @@ import { selectGetItemsStatus } from '../../store/itemsSlice/selectItems';
 import { selectFavorites } from '../../store/favoriteSlice/selectFavorite';
 import { selectCartItems } from '../../store/cartSlice/selectCart';
 
-const Card = ({ title, price, img, id} ) => {
+const Card = ({ title, price, img, id }) => {
 	const dispatch = useDispatch();
 	const isLoading = useSelector(selectGetItemsStatus);
 	const favorites = useSelector(selectFavorites);
 	const cartItems = useSelector(selectCartItems);
 
-	const isItemAdded = (id) => {
-		return cartItems.some((obj) => Number(obj.parentId) === Number(id));
+	const isItemAdded = (title) => {
+		return cartItems.some((obj) => obj.title === title);
 	};
 
-	const isItemFavorite = (id) => {
-		return favorites.some((obj) => Number(obj.parentId) === Number(id));
+	const isItemFavorite = (title) => {
+		return favorites.some((obj) => obj.title === title);
 	};
 
-	
 	//описание того что передаём, parent и favorite нужны для того чтобы
 	//не потерять обьект и определить его
 	const obj = {
@@ -83,7 +82,7 @@ const Card = ({ title, price, img, id} ) => {
 								width={22}
 								height={22}
 								src={
-									isItemFavorite(id) 
+									isItemFavorite(title)
 										? '/img/svg/heart-like.svg'
 										: '/img/svg/heart-unlike.svg'
 								}
@@ -106,7 +105,7 @@ const Card = ({ title, price, img, id} ) => {
 								className={styles.plus}
 								onClick={onClickPlus}
 								src={
-									isItemAdded(id)
+									isItemAdded(title)
 										? '/img/svg/btn-checked.svg'
 										: '/img/svg/btn-plus.svg'
 								}

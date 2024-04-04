@@ -27,14 +27,13 @@ export const onFavorite = createAsyncThunk(
 				`https://f4b4503d373ac905.mokky.dev/favorite/${findObj.id}`
 			);
 			dispatch(delFavorite(findObj));
-			dispatch(fetchFavorite());
 		} else {
 			const { data } = await axios.post(
 				'https://f4b4503d373ac905.mokky.dev/favorite',
 				obj
 			);
+
 			dispatch(addFavorite(data));
-			dispatch(fetchFavorite());
 		}
 	}
 );
@@ -55,7 +54,9 @@ export const favoriteSlice = createSlice({
 			state.favoriteItems.push(action.payload);
 		},
 		delFavorite(state, action) {
-			state.favoriteItems.filter((item) => item.id !== action.payload.id);
+			state.favoriteItems = state.favoriteItems.filter(
+				(item) => item.id !== action.payload.id
+			);
 		},
 	},
 	extraReducers: (builder) => {

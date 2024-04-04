@@ -21,15 +21,12 @@ export const onAddToCart = createAsyncThunk(
 				`https://f4b4503d373ac905.mokky.dev/cart/${findObj.id}`
 			);
 			dispatch(removeCartItems(findObj));
-
-			dispatch(fetchCart());
 		} else {
 			const { data } = await axios.post(
 				'https://f4b4503d373ac905.mokky.dev/cart',
 				obj
 			);
 			dispatch(addCartItems(data));
-			dispatch(fetchCart());
 		}
 		// это как setCartItems([...cartItems, obj]);
 	}
@@ -40,7 +37,6 @@ export const onRemoveItem = createAsyncThunk(
 	async (obj, { dispatch }) => {
 		await axios.delete(`https://f4b4503d373ac905.mokky.dev/cart/${obj.id}`);
 		dispatch(delCartItem(obj));
-		dispatch(fetchCart());
 	}
 );
 
@@ -61,10 +57,14 @@ export const cartSlice = createSlice({
 			state.cartItems.push(action.payload);
 		},
 		removeCartItems(state, action) {
-			state.cartItems.filter((item) => item.id !== action.payload.id);
+			state.cartItems = state.cartItems.filter(
+				(item) => item.id !== action.payload.id
+			);
 		},
 		delCartItem(state, action) {
-			state.cartItems.filter((item) => item.parentId !== action.payload);
+			state.cartItems = state.cartItems.filter(
+				(item) => item.parentId !== action.payload.parentId
+			);
 		},
 	},
 	extraReducers: (builder) => {
