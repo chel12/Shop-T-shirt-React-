@@ -17,9 +17,6 @@ const Favorites = () => {
 					<Card
 						key={card.id}
 						favorited={true}
-						// addFavorite={(obj) => {
-						// 	onFavorite(obj);
-						// }}
 						{...card}
 					/>
 				))}

@@ -78,9 +78,9 @@ const Card = ({ title, price, img, id }) => {
 					<div className={styles.favorite}>
 						{onFavorite && (
 							<img
+							className={styles.imgFav}
 								onClick={onClickFavorite}
-								width={22}
-								height={22}
+							
 								src={
 									isItemFavorite(title)
 										? '/img/svg/heart-like.svg'
@@ -90,7 +90,7 @@ const Card = ({ title, price, img, id }) => {
 							/>
 						)}
 					</div>
-					<img width={133} height={112} src={img} alt="T-shirt 1" />
+					<img  className={styles.cardImg} src={img} alt="T-shirt 1" />
 					<h5>{title}</h5>
 					<div className="d-flex justify-between align-center">
 						<div className="d-flex flex-column ">

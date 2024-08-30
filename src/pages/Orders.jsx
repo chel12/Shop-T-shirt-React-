@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Card from '../components/Card/Card';
 import axios from 'axios';
-import { AppContext } from '../App';
 
 const Orders = () => {
 	const [orders, setOrders] = useState([]);
 	const [isLoad, setIsLoad] = useState(true);
-
-	// const { onFavorite, onAddToCart } = useContext(AppContext);
 
 	useEffect(() => {
 		(async () => {
@@ -15,9 +12,6 @@ const Orders = () => {
 				const { data } = await axios.get(
 					'https://f4b4503d373ac905.mokky.dev/orders'
 				);
-				//1 вариант как достать массивы и склеить их через flat
-				//data.map((obj)=>obj.items.flat())
-				//2 вариант как достать массивы и склеить их через flat
 				setOrders(
 					data.reduce((prev, obj) => [...prev, ...obj.items], [])
 				);
