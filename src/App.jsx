@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { fetchItems } from './store/itemsSlice/itemsSlice';
 import { fetchCart } from './store/cartSlice/cartSlice';
 import { fetchFavorite } from './store/favoriteSlice/favoriteSlice';
-
+import SliderTextContent from './components/SliderTextContent/SliderTextContent';
 
 export const AppContext = createContext({});
 
@@ -42,8 +42,8 @@ function App() {
 			}}>
 			<Wrapper>
 				<Drawer opened={cartOpened} />
-
 				<Header onOpenDrawer={() => setCartOpened(true)}></Header>
+				<SliderTextContent/>
 				<Routes>
 					<Route
 						path="/"
